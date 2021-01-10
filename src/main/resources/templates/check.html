@@ -34,9 +34,15 @@
             var f_date = "<td>" + income_list[i].date + "</td>";
             var f_money = "<td>" + income_list[i].money + "</td>";
             var f_memo = "<td>" + income_list[i].memo + "</td>";
-            var f_proc1 = "<td>" + "<a href='/check/step4/1?id=" + income_list[i].id + "'>編集</a>" + "</td>";
-            var f_proc2 = "<td>" + "<a href='/check/step2?id=" + income_list[i].id + "'>削除</a>" + "</td>";
+            if (date != undefined) {
+              var f_proc1 = "<td>" + "<a href='/check/step4/1?id=" + income_list[i].id + "&date_ref=" + date + "'>編集</a>" + "</td>";
+              var f_proc2 = "<td>" + "<a href='/check/step2?id=" + income_list[i].id + "&date_ref=" + date + "'>削除</a>" + "</td>";
+            } else {
+              var f_proc1 = "<td>" + "<a href='/check/step4/1?id=" + income_list[i].id + "'>編集</a>" + "</td>";
+              var f_proc2 = "<td>" + "<a href='/check/step2?id=" + income_list[i].id + "'>削除</a>" + "</td>";
+            }
             income_table = income_table + bgn_tr + f_id + f_user_id + f_date + f_money + f_memo + f_proc1 + f_proc2 + end_tr;
+
             sum_income += income_list[i].money;
           }
         }
@@ -107,7 +113,7 @@
 
 <body>
   <h1>確認</h1>
-  <form>
+  <form th:action="@{/check/step6}">
     <input type="date" name="date_ref" id="date_ref">
     <input type="submit" value="確定">
   </form>
