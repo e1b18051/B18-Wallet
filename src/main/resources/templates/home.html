@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>B18-Wallet-home</title>
+  <link rel="stylesheet" href="/css/homestyle.css">
+</head>
+
+<body>
+
+  <a id="logout" href="/logout">ログアウト</a>
+  <br>
+  <div id="user" th:if="${login_user}">
+    ユーザ名：[[${login_user}]]
+  </div>
+
+  <p id="title"> B18-Wallet </p>
+
+  <div class="Pages">
+    <a id="toIncome">収入</a>
+    <a id="toSpend">支出</a>
+    <a id="toCheck">確認</a><br>
+
+    <a id="toIncomeImage" href="/income/step1"><img src="/img/income.png" alt="収入アイコン画像" border="1"
+        class="IncomeIcon"></img></a>
+    <a id="toSpendImage" href="/spend/step1"><img src="/img/spend.png" alt="支出アイコン画像" border="1"
+        class="SpendIcon"></img></a>
+    <a id="toCheckImage" href="/check/step1"><img src="/img/check.png" alt="確認アイコン画像" border="1"
+        class="CheckIcon"></img></a>
+    <br />
+  </div>
+
+</body>
+
+</html>

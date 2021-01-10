@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>B18-Wallet-check</title>
+  <script>
+    var query = location.search;
+    var value = query.split('date_ref=');
+    var date = value[1];
+
+    var sum_income = 0;
+    var sum_spend = 0;
+    var result = 0;
+
+    function setIncomeListener() {
+      var sse = new EventSource('/check/step7');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage");
+        console.log(event.data);
+        var tbody = document.getElementById("income_list");
+        var income_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+        var income_table = "";
+        var income_sum_id = document.getElementById("incomeSum");
+        sum_income = 0;
+        // DBに残っているフルーツのリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+
+        for (var i = 0; i < income_list.length; i++) {
+          if (date == null || date == income_list[i].date) {
+            var bgn_tr = "<tr>";
+            var end_tr = "</tr>";
+            var f_id = "<td>" + income_list[i].id + "</td>";
+            var f_user_id = "<td>" + income_list[i].user_id + "</td>";
+            var f_date = "<td>" + income_list[i].date + "</td>";
+            var f_money = "<td>" + income_list[i].money + "</td>";
+            var f_memo = "<td>" + income_list[i].memo + "</td>";
+            var f_proc1 = "<td>" + "<a href='/check/step4/1?id=" + income_list[i].id + "'>編集</a>" + "</td>";
+            var f_proc2 = "<td>" + "<a href='/check/step2?id=" + income_list[i].id + "'>削除</a>" + "</td>";
+            income_table = income_table + bgn_tr + f_id + f_user_id + f_date + f_money + f_memo + f_proc1 + f_proc2 + end_tr;
+            sum_income += income_list[i].money;
+          }
+        }
+        console.log(income_table);
+        console.log(sum_income);
+        tbody.innerHTML = income_table;
+        income_sum_id.innerHTML = "収入=" + sum_income + " ";
+      }
+    }
+
+    function setSpendListener() {
+      var sse = new EventSource('/check/step8');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage");
+        console.log(event.data);
+        var tbody = document.getElementById("spend_list");
+        var spend_list = JSON.parse(event.data);//JSONオブジェクトとしてparse
+        var spend_table = "";
+        var spend_sum_id = document.getElementById("spendSum");
+        sum_spend = 0;
+        // DBに残っているフルーツのリストがJSONオブジェクトとして得られるので，htmlを作成し，tbodyの中身毎入れ替える
+        for (var i = 0; i < spend_list.length; i++) {
+          if (date == null || date == spend_list[i].date) {
+            var bgn_tr = "<tr>";
+            var end_tr = "</tr>";
+            var f_id = "<td>" + spend_list[i].id + "</td>";
+            var f_user_id = "<td>" + spend_list[i].user_id + "</td>";
+            var f_date = "<td>" + spend_list[i].date + "</td>";
+            var f_money = "<td>" + spend_list[i].money + "</td>";
+            var f_memo = "<td>" + spend_list[i].memo + "</td>";
+            var f_proc1 = "<td>" + "<a href='/check/step4/2?id=" + spend_list[i].id + "'>編集</a>" + "</td>";
+            var f_proc2 = "<td>" + "<a href='/check/step3?id=" + spend_list[i].id + "'>削除</a>" + "</td>";
+            spend_table = spend_table + bgn_tr + f_id + f_user_id + f_date + f_money + f_memo + f_proc1 + f_proc2 + end_tr;
+            sum_spend += spend_list[i].money;
+          }
+        }
+        console.log(spend_table);
+        console.log(sum_spend);
+        tbody.innerHTML = spend_table;
+        spend_sum_id.innerHTML = "支出=" + sum_spend + " ";
+        calResult();
+      }
+    }
+
+    function getDateRef() {
+      console.log(date);
+      var date_ref_id = document.getElementById("date_ref");
+      if (date != undefined) {
+        date_ref_id.value = date;
+        console.log(date_ref_id.value);
+      }
+    }
+
+    function calResult() {
+      var result_id = document.getElementById("Result");
+      result = 0;
+      result = sum_income - sum_spend;
+      result_id.innerHTML = "総額=" + result;
+    }
+
+    window.onload = function () {
+      getDateRef();
+      setIncomeListener();
+      setSpendListener();
+    }
+  </script>
+</head>
+
+<body>
+  <h1>確認</h1>
+  <form>
+    <input type="date" name="date_ref" id="date_ref">
+    <input type="submit" value="確定">
+  </form>
+  <form th:action="@{/check/step1}">
+    <input type="submit" value="全データ表示">
+  </form>
+  <div>Income</div>
+  <table th:if="${incomes}" border="1">
+    <thead>
+      <th>ID</th>
+      <th>UserID</th>
+      <th>年月日</th>
+      <th>収入</th>
+      <th>メモ</th>
+      <th></th>
+      <th></th>
+    </thead>
+
+    <tbody id="income_list">
+      <tr th:each="income:${incomes}">
+        <td>[[${income.id}]]</td>
+        <td>[[${income.user_id}]]</td>
+        <td>[[${income.date}]]</td>
+        <td id="income_money">[[${income.money}]]</td>
+        <td>[[${income.memo}]]</td>
+        <td><a th:href="@{/check/step4/1(id=${income.id})}">編集</a></td>
+        <td><a th:href="@{/check/step2(id=${income.id})}">削除</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>Spend</div>
+  <table th:if="${spends}" border="1">
+    <thead>
+      <th>ID</th>
+      <th>UserID</th>
+      <th>年月日</th>
+      <th>支出</th>
+      <th>メモ</th>
+      <th></th>
+      <th></th>
+    </thead>
+
+    <tbody id="spend_list">
+      <tr th:each="spend:${spends}">
+        <td>[[${spend.id}]]</td>
+        <td>[[${spend.user_id}]]</td>
+        <td>[[${spend.date}]]</td>
+        <td>[[${spend.money}]]</td>
+        <td>[[${spend.memo}]]</td>
+        <td><a th:href="@{/check/step4/2(id=${spend.id})}">編集</a></td>
+        <td><a th:href="@{/check/step3(id=${spend.id})}">削除</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <div th:if="${income4}">
+    収入を編集します
+    <form th:action="@{/check/step5/1(id=${income4.id})}" method="post">
+      <!--DBで取得した値を入れたい場合は thのvalueを利用する-->
+      <input type="date" name="date" th:value="${income4.date}" required /><br>
+      <input type="number" name="money" min="0" max="2000000000" autocomplete="off" th:value="${income4.money}"
+        required /><br>
+      <p>メモ</p>
+      <textarea name="memo" cols="60" rows="10" maxlength="200">[[${income4.memo}]]</textarea><br>
+      <input type="submit" value="編集"><input type="reset" value="リセット">
+    </form>
+  </div>
+
+  <div th:if="${spend4}">
+    支出を編集します
+    <form th:action="@{/check/step5/2(id=${spend4.id})}" method="post">
+      <!--DBで取得した値を入れたい場合は thのvalueを利用する-->
+      <input type="date" name="date" th:value="${spend4.date}" required /><br>
+      <input type="number" name="money" min="0" max="2000000000" autocomplete="off" th:value="${spend4.money}"
+        required /><br>
+      <p>メモ</p>
+      <textarea name="memo" cols="60" rows="10" maxlength="200">[[${spend4.memo}]]</textarea><br>
+      <input type="submit" value="編集"><input type="reset" value="リセット">
+    </form>
+  </div>
+
+  <p>
+    <a id="incomeSum">収入=</a>
+    <a id="spendSum">支出=</a>
+    <a id="Result">総額=</a>
+  </p>
+
+  <p th:if="${income2}">
+    削除が完了しました
+  </p>
+
+  <p th:if="${spend2}">
+    削除が完了しました
+  </p>
+
+  <p th:if="${income5}">
+    編集が完了しました
+  </p>
+
+  <p th:if="${spend5}">
+    編集が完了しました
+  </p>
+
+  <input type="button" value="もどる" onclick="location.href='/home/step1'">
+</body>
+
+</html>

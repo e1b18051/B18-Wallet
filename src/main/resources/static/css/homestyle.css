@@ -1,0 +1,68 @@
+body {
+  margin-top: 0;
+  padding: 2%;
+  text-align: center;
+}
+
+#title {
+  margin-left: 0 auto;
+  margin-right: 0 auto;
+  font-size: 50px;
+}
+
+#logout {
+  float: right;
+}
+
+#user {
+  float: right;
+}
+
+#toIncome {
+  float: left;
+  margin-left: 21%;
+}
+
+#toSpend {
+  float: center;
+}
+
+#toCheck {
+  float: right;
+  margin-right: 21%;
+}
+
+#toIncomeImage {
+  float: left;
+  margin-left: 14%;
+}
+
+#toSpendImage {
+  float: center;
+}
+
+#toCheckImage {
+  float: right;
+  margin-right: 14%;
+}
+
+.Pages {
+  margin-left: 0 auto;
+  margin-right: 0 auto;
+  font-size: 28px;
+}
+
+img.IncomeIcon {
+  width: 220px;
+  height: 220px;
+}
+
+img.SpendIcon {
+  width: 220px;
+  height: 220px;
+}
+
+img.CheckIcon {
+  width: 220px;
+  height: 220px;
+}
