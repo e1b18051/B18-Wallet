@@ -52,17 +52,7 @@ body {
   font-size: 28px;
 }
 
-img.IncomeIcon {
-  width: 220px;
-  height: 220px;
-}
-
-img.SpendIcon {
-  width: 220px;
-  height: 220px;
-}
-
-img.CheckIcon {
-  width: 220px;
-  height: 220px;
+img.Icon {
+  width: 18vw;
+  height: 18vw;
 }
