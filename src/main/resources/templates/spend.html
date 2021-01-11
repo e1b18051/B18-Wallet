@@ -4,9 +4,15 @@
 <head>
   <meta charset="utf-8">
   <title>B18-Wallet-spend</title>
+  <link rel="stylesheet" href="/css/spendstyle.css">
 </head>
 
 <body>
+  <a id="logout" href="/logout">ログアウト</a>
+  <br>
+  <div id="user" th:if="${login_user}">
+    ユーザ名：[[${login_user}]]
+  </div>
   <h1>支出</h1>
   <form action="/spend/step2" method="post">
     <input type="date" name="Date" value="YY/MM/DD" required><br>

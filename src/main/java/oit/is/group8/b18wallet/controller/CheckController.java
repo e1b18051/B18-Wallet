@@ -36,7 +36,9 @@ public class CheckController {
    */
 
   @GetMapping("step1")
-  public String check(ModelMap model) {
+  public String check(Principal prin, ModelMap model) {
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     final ArrayList<Income> income = checkService.syncShowIncomeList();
     final ArrayList<Spend> spend = checkService.syncShowSpendList();
     model.addAttribute("incomes", income);

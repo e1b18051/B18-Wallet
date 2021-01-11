@@ -26,7 +26,9 @@ public class IncomeController {
    */
 
   @GetMapping("step1")
-  public String income(){
+  public String income(Principal prin, ModelMap model){
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     return "income.html";
   }
 

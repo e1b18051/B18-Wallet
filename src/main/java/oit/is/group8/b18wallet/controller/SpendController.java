@@ -28,7 +28,9 @@ public class SpendController {
    */
 
   @GetMapping("step1")
-  public String spend() {
+  public String spend(Principal prin, ModelMap model) {
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     return "spend.html";
   }
 
