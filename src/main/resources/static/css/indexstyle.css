@@ -1,0 +1,20 @@
+body{
+  margin-left: 0 auto;
+  margin-right: 0 auto;
+  margin-top: 55;
+  padding: 2%;
+  text-align: center;
+}
+
+.fade{
+  animation: fadeIn 3s ease 0s 1 normal;
+}
+
+#title{
+  font-size: 50px;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0}
+  100% {opacity: 1}
+}
