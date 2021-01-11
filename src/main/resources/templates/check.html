@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>B18-Wallet-check</title>
+  <link rel="stylesheet" href="/css/checkstyle.css">
   <script>
     var query = location.search;
     var value = query.split('date_ref=');
@@ -49,7 +50,7 @@
         console.log(income_table);
         console.log(sum_income);
         tbody.innerHTML = income_table;
-        income_sum_id.innerHTML = "収入=" + sum_income + " ";
+        income_sum_id.innerHTML = "収入：" + sum_income.toLocaleString() + "円 ";
       }
     }
 
@@ -82,7 +83,7 @@
         console.log(spend_table);
         console.log(sum_spend);
         tbody.innerHTML = spend_table;
-        spend_sum_id.innerHTML = "支出=" + sum_spend + " ";
+        spend_sum_id.innerHTML = "支出：" + sum_spend.toLocaleString() + "円 ";
         calResult();
       }
     }
@@ -100,7 +101,7 @@
       var result_id = document.getElementById("Result");
       result = 0;
       result = sum_income - sum_spend;
-      result_id.innerHTML = "総額=" + result;
+      result_id.innerHTML = "総額：" + result.toLocaleString() + "円";
     }
 
     window.onload = function () {
@@ -112,6 +113,11 @@
 </head>
 
 <body>
+  <a id="logout" href="/logout">ログアウト</a>
+  <br>
+  <div id="user" th:if="${login_user}">
+    ユーザ名：[[${login_user}]]
+  </div>
   <h1>確認</h1>
   <form th:action="@{/check/step6}">
     <input type="date" name="date_ref" id="date_ref">
@@ -120,7 +126,14 @@
   <form th:action="@{/check/step1}">
     <input type="submit" value="全データ表示">
   </form>
-  <div>Income</div>
+
+  <p>
+    <a id="incomeSum">収入=</a>
+    <a id="spendSum">支出=</a>
+    <a id="Result">総額=</a>
+  </p>
+
+  <h2>収入</h2>
   <table th:if="${incomes}" border="1">
     <thead>
       <th>ID</th>
@@ -145,7 +158,7 @@
     </tbody>
   </table>
 
-  <div>Spend</div>
+  <h2>支出</h2>
   <table th:if="${spends}" border="1">
     <thead>
       <th>ID</th>
@@ -197,11 +210,6 @@
     </form>
   </div>
 
-  <p>
-    <a id="incomeSum">収入=</a>
-    <a id="spendSum">支出=</a>
-    <a id="Result">総額=</a>
-  </p>
 
   <p th:if="${income2}">
     削除が完了しました
