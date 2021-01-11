@@ -46,17 +46,26 @@ public class CheckController {
 
   @GetMapping("step2")
   @Transactional
-  public String check_income_D(@RequestParam Integer id, ModelMap model) {
+  public String check_income_D(@RequestParam Integer id, @RequestParam(required = false) String date_ref,
+      ModelMap model) {
     Income income2 = incomeMapper.selectById(id);
     model.addAttribute("income2", income2);
 
     incomeMapper.deleteById(id);
 
-    final ArrayList<Income> income = checkService.syncShowIncomeList();
-    final ArrayList<Spend> spend = checkService.syncShowSpendList();
-    model.addAttribute("incomes", income);
-    model.addAttribute("spends", spend);
-    return "check.html";
+    if (date_ref == null) {
+      ArrayList<Income> income = incomeMapper.getAllIncome();
+      ArrayList<Spend> spend = spendMapper.getAllSpend();
+      model.addAttribute("incomes", income);
+      model.addAttribute("spends", spend);
+      return "check.html";
+    } else {
+      ArrayList<Income> income = incomeMapper.getAllByDate(date_ref);
+      ArrayList<Spend> spend = spendMapper.getAllByDate(date_ref);
+      model.addAttribute("incomes", income);
+      model.addAttribute("spends", spend);
+      return "check.html";
+    }
   }
 
   @GetMapping("step3")
@@ -74,19 +83,33 @@ public class CheckController {
     return "check.html";
   }
 
+  /**
+   * @param model
+   * @param date_ref
+   * @return
+   */
   @GetMapping("step4/1")
   @Transactional
-  public String check_income_G(@RequestParam Integer id, ModelMap model) {
+  public String check_income_G(@RequestParam Integer id, @RequestParam(required = false) String date_ref,
+      ModelMap model) {
     // 編集対象の収入を取得
     Income income4 = incomeMapper.selectById(id);
     model.addAttribute("income4", income4);
 
     // 収入リストを取得
-    ArrayList<Income> income = incomeMapper.getAllIncome();
-    ArrayList<Spend> spend = spendMapper.getAllSpend();
-    model.addAttribute("incomes", income);
-    model.addAttribute("spends", spend);
-    return "check.html";
+    if (date_ref == null) {
+      ArrayList<Income> income = incomeMapper.getAllIncome();
+      ArrayList<Spend> spend = spendMapper.getAllSpend();
+      model.addAttribute("incomes", income);
+      model.addAttribute("spends", spend);
+      return "check.html";
+    } else {
+      ArrayList<Income> income = incomeMapper.getAllByDate(date_ref);
+      ArrayList<Spend> spend = spendMapper.getAllByDate(date_ref);
+      model.addAttribute("incomes", income);
+      model.addAttribute("spends", spend);
+      return "check.html";
+    }
   }
 
   @GetMapping("step4/2")
@@ -111,6 +134,7 @@ public class CheckController {
    * @param money
    * @param memo
    * @param model
+   * @param date_ref
    * @return
    */
   @PostMapping("step5/1")
@@ -159,14 +183,14 @@ public class CheckController {
    * @param model
    * @return
    */
-  /*@GetMapping("step6")
+  @GetMapping("step6")
   public String check_date_ref(@RequestParam String date_ref, ModelMap model) {
     ArrayList<Income> income = incomeMapper.getAllByDate(date_ref);
     ArrayList<Spend> spend = spendMapper.getAllByDate(date_ref);
     model.addAttribute("incomes", income);
     model.addAttribute("spends", spend);
     return "check.html";
-  }*/
+  }
 
   @GetMapping("step7")
   public SseEmitter service_income() {
