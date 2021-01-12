@@ -48,10 +48,13 @@ public class CheckController {
 
   @GetMapping("step2")
   @Transactional
-  public String check_income_D(@RequestParam Integer id, @RequestParam(required = false) String date_ref,
+  public String check_income_D(@RequestParam Integer id, @RequestParam(required = false) String date_ref, Principal prin,
       ModelMap model) {
     Income income2 = incomeMapper.selectById(id);
+    String loginUser = prin.getName();
     model.addAttribute("income2", income2);
+    model.addAttribute("login_user", loginUser);
+
 
     incomeMapper.deleteById(id);
 
@@ -72,8 +75,10 @@ public class CheckController {
 
   @GetMapping("step3")
   @Transactional
-  public String check_spend_D(@RequestParam Integer id, ModelMap model) {
+  public String check_spend_D(@RequestParam Integer id, Principal prin,ModelMap model) {
     Spend spend2 = spendMapper.selectById(id);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     model.addAttribute("spend2", spend2);
 
     spendMapper.deleteById(id);
@@ -92,11 +97,13 @@ public class CheckController {
    */
   @GetMapping("step4/1")
   @Transactional
-  public String check_income_G(@RequestParam Integer id, @RequestParam(required = false) String date_ref,
+  public String check_income_G(@RequestParam Integer id, @RequestParam(required = false) String date_ref, Principal prin,
       ModelMap model) {
     // 編集対象の収入を取得
     Income income4 = incomeMapper.selectById(id);
     model.addAttribute("income4", income4);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
 
     // 収入リストを取得
     if (date_ref == null) {
@@ -116,10 +123,12 @@ public class CheckController {
 
   @GetMapping("step4/2")
   @Transactional
-  public String check_spend_G(@RequestParam Integer id, ModelMap model) {
+  public String check_spend_G(@RequestParam Integer id, Principal prin,ModelMap model) {
     // 編集対象の収入を取得
     Spend spend4 = spendMapper.selectById(id);
     model.addAttribute("spend4", spend4);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
 
     // 収入リストを取得
     ArrayList<Income> income = incomeMapper.getAllIncome();
@@ -152,6 +161,8 @@ public class CheckController {
     ArrayList<Spend> spend = spendMapper.getAllSpend();
     model.addAttribute("incomes", income);
     model.addAttribute("spends", spend);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     return "check.html";
   }
 
@@ -177,6 +188,8 @@ public class CheckController {
     ArrayList<Spend> spend = spendMapper.getAllSpend();
     model.addAttribute("incomes", income);
     model.addAttribute("spends", spend);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     return "check.html";
   }
 
@@ -186,11 +199,13 @@ public class CheckController {
    * @return
    */
   @GetMapping("step6")
-  public String check_date_ref(@RequestParam String date_ref, ModelMap model) {
+  public String check_date_ref(@RequestParam String date_ref, Principal prin,ModelMap model) {
     ArrayList<Income> income = incomeMapper.getAllByDate(date_ref);
     ArrayList<Spend> spend = spendMapper.getAllByDate(date_ref);
     model.addAttribute("incomes", income);
     model.addAttribute("spends", spend);
+    String loginUser = prin.getName();
+    model.addAttribute("login_user", loginUser);
     return "check.html";
   }
 

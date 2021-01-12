@@ -46,6 +46,7 @@ public class SpendController {
     spend1.setMemo(Memo);
     spendMapper.insertSpend(spend1);
     model.addAttribute("spend1", spend1);
+    model.addAttribute("login_user", loginUser);
     return "spend.html";
   }
 }

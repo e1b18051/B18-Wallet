@@ -43,6 +43,7 @@ public class IncomeController {
     income1.setMemo(Memo);
     incomeMapper.insertIncome(income1);
     model.addAttribute("income1", income1);
+    model.addAttribute("login_user", loginUser);
     return "income.html";
   }
 
