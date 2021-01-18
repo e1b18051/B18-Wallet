@@ -27,16 +27,22 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter {
         .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
     auth.inMemoryAuthentication().withUser("user2")
         .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
-    auth.inMemoryAuthentication().withUser("admin")
-        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("ADMIN");
-
-    // $ sshrun htpasswd -nbBC 10 customer1 Cust0m
-    auth.inMemoryAuthentication().withUser("customer1")
-        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("CUSTOMER");
-    auth.inMemoryAuthentication().withUser("customer2")
-        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("CUSTOMER");
-    auth.inMemoryAuthentication().withUser("seller")
-        .password("$2y$10$8IbzoKwqlCJf.z8/7YThKuSB1nGAQSr8rtHN7pQzm4mx9nrOhsN1C").roles("SELLER");
+    auth.inMemoryAuthentication().withUser("user3")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user4")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user5")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user6")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user7")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user8")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user9")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
+    auth.inMemoryAuthentication().withUser("user10")
+        .password("$2y$10$rJ9yqGht2W96MdIJICRQQOuUiYrt2eDokKnDuZZof2DPs83PN6QdC").roles("USER");
 
     // 開発中は↓の書き方でも良いが，平文でパスワードが保存される
     // auth.inMemoryAuthentication().withUser("user1").password(passwordEncoder().encode("pAssw0rd")).roles("USER");
