@@ -1,5 +1,13 @@
-INSERT INTO users (user_id,user) VALUES ('user1','ほんだ');
-INSERT INTO users (user_id,user) VALUES ('user2','いがき');
+INSERT INTO users (user_id,user) VALUES ('user1','USER1');
+INSERT INTO users (user_id,user) VALUES ('user2','USER2');
+INSERT INTO users (user_id,user) VALUES ('user3','USER3');
+INSERT INTO users (user_id,user) VALUES ('user4','USER4');
+INSERT INTO users (user_id,user) VALUES ('user5','USER5');
+INSERT INTO users (user_id,user) VALUES ('user6','USER6');
+INSERT INTO users (user_id,user) VALUES ('user7','USER7');
+INSERT INTO users (user_id,user) VALUES ('user8','USER8');
+INSERT INTO users (user_id,user) VALUES ('user9','USER9');
+INSERT INTO users (user_id,user) VALUES ('user10','USER10');
 INSERT INTO income (user_id,date,money,memo) VALUES ('user1','2020-12-17',100000,'メモでーす');
 INSERT INTO income (user_id,date,money,memo) VALUES ('user2','2020-12-20',500000,'');
 INSERT INTO spend (user_id,date,money,memo) VALUES ('user1','2020-12-20',100000,'');
